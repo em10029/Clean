@@ -183,7 +183,7 @@ public class Main {
 
         if (directories != null) {
 
-            print("## --> Carpeta --> Fecha creación --> Días transcurridos --> Mensaje");
+            print("## --> Archivo --> Fecha creación --> Días transcurridos --> Mensaje");
 
             for (File file : directories) { //Recorrido de archivos     
 
