@@ -203,22 +203,39 @@ public class Main {
 
                 int dias = (int) ((fechaFinal.getTime() - fechaInicial.getTime()) / 86400000);
 
-                if (dias > CLEAN_DAYS) {
-                    if (file.delete()) {
-                        print(String.format("%02d", cont) + " --> " + file.getName() + " --> " + dateCreated + " --> " + dias + " --> Eliminado");
-                    } else {
-                        print(String.format("%02d", cont) + " --> " + file.getName() + " --> " + dateCreated + " --> " + dias + " --> ERROR al eliminar");
-                    }
-                } else {
-                    print(String.format("%02d", cont) + " --> " + file.getName() + " --> " + dateCreated + " --> " + dias + " --> No se elimino");
-                }
-                //}
+                String log = String.format("%02d", cont) + " --> " + file.getName() + " --> " + dateCreated + " --> " + dias + " --> ";
 
+                if (dias > CLEAN_DAYS) {
+                    delete(file); //Elimina todo lo contenido en la carpeta o archivo
+                    log += "Eliminado";
+                } else {
+                    //3-No se elimino el fichero no aplica para la antiguedad configurada
+                    log += "No se elimino";
+                }
+
+                print(log);
+
+                //}
             }
         } else {
             print("No hay ficheros en el directorio: " + CLEAN_ROOT);
         }
+    }
 
+    /**
+     * Elimina el fichero con todo su contenido.
+     * @param file 
+     */
+    private static void delete(File file) {
+        if (file.isDirectory()) {
+            File[] directories = file.listFiles(); //Lista de archivos y directorios                        
+            for (File dir : directories) {
+                delete(dir); //Recursividad de carpetas
+            }
+            file.delete(); //Carpeta vacia se elimina                                    
+        } else {
+            file.delete(); //Si es archivo se elimina
+        }
     }
 
     /**
